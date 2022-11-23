@@ -2,6 +2,7 @@ module Model.Date exposing (Date, Month(..), compare, compareMonth, full, month,
 
 import Html exposing (Html, text, div)
 import Model.Util exposing (chainCompare)
+import Json.Decode exposing (maybe)
 
 
 type Date
@@ -55,8 +56,10 @@ The month fields are handled as follows:
 -}
 monthsBetween : Date -> Date -> Maybe Int
 monthsBetween dA dB =
-    Nothing
-    -- Debug.todo "Implement Date.monthsBetween"
+    case (month dA, month dB) of
+        (Just m1, Just m2) -> Just <| abs <| ((year dA) - (year dB)) * 12 + (monthToInt m1 - monthToInt m2)
+        (Nothing, Nothing) -> Just <| abs <| ((year dA) - (year dB)) * 12
+        (_, _) -> Nothing
 
 
 {-| Compares two dates.
@@ -78,10 +81,21 @@ First, dates are compared by the year field. If it's equal, the month fields are
 ```
 
 -}
+
 compare : Date -> Date -> Order
 compare (Date d1) (Date d2) =
-    EQ
-    -- Debug.todo "Implement Model.Date.compare"
+    let
+        compareYears = Basics.compare
+
+        compareMaybeMonths : Maybe Month -> Maybe Month -> Order
+        compareMaybeMonths mm1 mm2 = 
+            case (mm1, mm2) of
+                (Just m1, Just m2) -> Basics.compare (monthToInt m1) (monthToInt m2)
+                (Nothing, Nothing) -> EQ
+                (Just _, Nothing) -> LT
+                (Nothing, Just _) -> GT
+    in
+        chainCompare (compareMaybeMonths d1.month d2.month) (compareYears d1.year d2.year)
 
 
 {-| Given a current date and the number of months, it returns a new date with the given number of months passed.
@@ -119,7 +133,6 @@ offsetMonths months (Date d) =
 view : Date -> Html msg
 view (Date d) =
     div [] []
-    -- Debug.todo "Implement Model.Date.view"
 
 
 
@@ -279,6 +292,5 @@ compareMonth m1 m2 =
 
 -}
 monthsBetweenMonths : Month -> Month -> Int
-monthsBetweenMonths m1 m2 =
-    0
+monthsBetweenMonths m1 m2 = abs (monthToInt m1 - monthToInt m2)
     -- Debug.todo "Implement Date.monthsBetweenMonths"
