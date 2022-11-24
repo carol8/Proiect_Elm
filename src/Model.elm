@@ -40,46 +40,46 @@ academicEvents =
 
 workEvents : List Event
 workEvents =
-    [ { title = "Work event 1"
-      , interval = Interval.withDurationMonths 2019 Date.Jun 3
-      , description = text "Internship"
+    [ { title = "DATS Evenimente"
+      , interval = Interval.withDurationMonths 2022 Date.Feb 6
+      , description = text "DATS Evenimente is an event display app for the DATS events"
       , category = Work
-      , url = Nothing
-      , tags = []
-      , important = False
+      , url = Just "https://github.com/carol8/DATS_Evenimente"
+      , tags = ["Android"]
+      , important = True
       }
-    , { title = "Work event 2"
-      , interval = Interval.open (Date.full 2020 Date.Sep)
-      , description = text "Junior position"
+    , { title = "Bosch"
+      , interval = Interval.withDurationMonths 2022 Date.Jul 3
+      , description = text "Working Student in the iRWS x DevOps teams"
       , category = Work
       , url = Nothing
-      , tags = []
-      , important = False
+      , tags = ["Bosch"]
+      , important = True
       }
     ]
 
 
 projectEvens : List Event
 projectEvens =
-    [ { title = "Personal project 1"
-      , interval = Interval.oneYear 2018
-      , description = text "Small app in Java"
+    [ { title = "NX Ball"
+      , interval = Interval.withDurationMonths 2021 Date.Mar 3
+      , description = text "A copy of the famous Atari Breakout, made in x86 ASM"
       , category = Project
-      , url = Nothing
-      , tags = []
+      , url = Just "https://github.com/carol8/NX_BALL"
+      , tags = ["ASM", "Game", "Windows", "x86"]
       , important = False
       }
-    , { title = "Personal project 2"
-      , interval = Interval.oneYear 2020
-      , description = text "Command line utility in C"
+    , { title = "DATS Evenimente"
+      , interval = Interval.withDurationMonths 2022 Date.Feb 6
+      , description = text "DATS Evenimente is an event display app for the DATS events"
       , category = Project
-      , url = Nothing
-      , tags = []
-      , important = False
+      , url = Just "https://github.com/carol8/DATS_Evenimente"
+      , tags = ["Android"]
+      , important = True
       }
-    , { title = "Personal project 3"
-      , interval = Interval.oneYear 2020
-      , description = text "Movie database for License thesis"
+    , { title = "Elm Personal Webpage"
+      , interval = Interval.open (Date.full 2022 Date.Nov)
+      , description = text "A personal webpage made using Elm"
       , category = Project
       , url = Nothing
       , tags = []
@@ -94,6 +94,7 @@ personalDetails =
     , intro = "I like computers"
     , contacts = [ DetailWithName "email" "cristib_2002@yahoo.com" ]
     , socials = [ DetailWithName "github" "https://github.com/carol8" ]
+    , repo_addr = "https://api.github.com/users/carol8/repos"
     }
 
 
