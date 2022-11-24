@@ -2,7 +2,7 @@ module Model.Date exposing (Date, Month(..), compare, compareMonth, full, month,
 
 import Html exposing (Html, text, div)
 import Model.Util exposing (chainCompare)
-import Json.Decode exposing (maybe)
+import Html exposing (p)
 
 
 type Date
@@ -81,7 +81,6 @@ First, dates are compared by the year field. If it's equal, the month fields are
 ```
 
 -}
-
 compare : Date -> Date -> Order
 compare (Date d1) (Date d2) =
     let
@@ -132,7 +131,7 @@ offsetMonths months (Date d) =
 
 view : Date -> Html msg
 view (Date d) =
-    div [] []
+    div [] [ p [] [text <| (d.year |> String.fromInt) ++ " " ++ (d.month |> Maybe.map monthToString |> Maybe.withDefault "")]]
 
 
 

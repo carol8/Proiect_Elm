@@ -11,6 +11,7 @@ import Model.Event as Event
 import Model.Event.Category as EventCategory
 import Model.PersonalDetails as PersonalDetails
 import Model.Repo as Repo
+import Model.Repo exposing (decodeRepo)
 
 
 type Msg
@@ -33,7 +34,7 @@ main =
 init : () -> ( Model, Cmd Msg )
 init _ =
     ( initModel
-    , Cmd.none
+    , getRepos initModel.personalDetails.repo_addr
     )
 
 
@@ -41,21 +42,35 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
 
+getRepos : String -> Cmd Msg
+getRepos repo_api = Http.get
+    { url = repo_api
+    , expect = Http.expectJson GotRepos (De.list decodeRepo)
+    }
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         GetRepos ->
-            ( model, Cmd.none )
+            ( model
+            , getRepos initModel.personalDetails.repo_addr 
+            )
 
         GotRepos res ->
-            ( model, Cmd.none )
+            ( { model | repos = Result.withDefault [Model.Repo.Repo "Couldn't get repos" Nothing "" "" 0] res}
+            , Cmd.none 
+            )
 
         SelectEventCategory category ->
-            ( model, Cmd.none )
+            ( {model | selectedEventCategories = EventCategory.set category True model.selectedEventCategories}
+            , Cmd.none 
+            )
+
 
         DeselectEventCategory category ->
-            ( model, Cmd.none )
+            ( {model | selectedEventCategories = EventCategory.set category False model.selectedEventCategories}
+            , Cmd.none 
+            )
 
 
 eventCategoryToMsg : ( EventCategory.EventCategory, Bool ) -> Msg

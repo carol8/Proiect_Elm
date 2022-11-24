@@ -19,7 +19,7 @@ eventCategories =
 {-| Type used to represent the state of the selected event categories
 -}
 type SelectedEventCategories
-    = TODOCompleteThisType
+    = SelectedEventCategories (List EventCategory)
 
 
 {-| Returns an instance of `SelectedEventCategories` with all categories selected
@@ -28,8 +28,7 @@ type SelectedEventCategories
 
 -}
 allSelected : SelectedEventCategories
-allSelected =
-    TODOCompleteThisType
+allSelected = SelectedEventCategories eventCategories
     -- Debug.todo "Implement Model.Event.Category.allSelected"
 
 {-| Returns an instance of `SelectedEventCategories` with no categories selected
@@ -38,8 +37,7 @@ allSelected =
 
 -}
 noneSelected : SelectedEventCategories
-noneSelected =
-    TODOCompleteThisType
+noneSelected = SelectedEventCategories []
     -- Debug.todo "Implement Model.Event.Category.noneSelected"
 
 {-| Given a the current state and a `category` it returns whether the `category` is selected.
@@ -48,8 +46,11 @@ noneSelected =
 
 -}
 isEventCategorySelected : EventCategory -> SelectedEventCategories -> Bool
-isEventCategorySelected category current =
-    False
+isEventCategorySelected category current = 
+    let
+        (SelectedEventCategories categories) = current
+    in
+        List.member category categories
     -- Debug.todo "Implement Model.Event.Category.isEventCategorySelected"
 
 
@@ -62,8 +63,13 @@ isEventCategorySelected category current =
 -}
 set : EventCategory -> Bool -> SelectedEventCategories -> SelectedEventCategories
 set category value current =
-    current
-    -- Debug.todo "Implement Model.Event.Category.set"
+    let
+        (SelectedEventCategories categories) = current
+    in
+        case (value, List.member category categories) of
+            (True, False) -> SelectedEventCategories <| category::categories
+            (False, True) -> SelectedEventCategories <| (categories |> List.filter (\x -> x /= category)) 
+            (_, _) -> current
 
 
 checkbox : String -> Bool -> EventCategory -> Html ( EventCategory, Bool )
@@ -76,5 +82,9 @@ checkbox name state category =
 
 view : SelectedEventCategories -> Html ( EventCategory, Bool )
 view model =
-    div [] []
-    -- Debug.todo "Implement the Model.Event.Category.view function"
+    div [] 
+    [ checkbox "Academic" (isEventCategorySelected Academic model) Academic
+    , checkbox "Work" (isEventCategorySelected Work model) Work
+    , checkbox "Project" (isEventCategorySelected Project model) Project
+    , checkbox "Award" (isEventCategorySelected Award model) Award
+    ]

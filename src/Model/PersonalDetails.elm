@@ -15,6 +15,7 @@ type alias PersonalDetails =
     , contacts : List DetailWithName
     , intro : String
     , socials : List DetailWithName
+    , repo_addr : String
     }
 
 
