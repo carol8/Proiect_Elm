@@ -19,7 +19,7 @@ type alias Model =
 
 academicEvents : List Event
 academicEvents =
-    [ { title = "Academic event 1"
+    [ { title = "High school"
       , interval = Interval.withDurationYears (Date.onlyYear 2016) 4
       , description = p [] [ text "I obtained ", b [] [ text "very" ], text " good grades." ]
       , category = Academic
@@ -27,13 +27,13 @@ academicEvents =
       , tags = []
       , important = False
       }
-    , { title = "Academic event 2"
+    , { title = "University"
       , interval = Interval.withDurationYears (Date.onlyYear 2020) 2
-      , description = div [] []
+      , description = p [] [text "Ongoing, trying to learn as much as I can"]
       , category = Academic
       , url = Nothing
       , tags = []
-      , important = False
+      , important = True
       }
     ]
 
@@ -74,15 +74,15 @@ projectEvens =
       , description = text "DATS Evenimente is an event display app for the DATS events"
       , category = Project
       , url = Just "https://github.com/carol8/DATS_Evenimente"
-      , tags = ["Android"]
+      , tags = ["Android", "App"]
       , important = True
       }
     , { title = "Elm Personal Webpage"
       , interval = Interval.open (Date.full 2022 Date.Nov)
       , description = text "A personal webpage made using Elm"
       , category = Project
-      , url = Nothing
-      , tags = []
+      , url = Just "https://github.com/carol8/Proiect_Elm"
+      , tags = ["Elm", "Wepbage"]
       , important = False
       }
     ]
