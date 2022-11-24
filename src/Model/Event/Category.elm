@@ -29,7 +29,7 @@ type SelectedEventCategories
 -}
 allSelected : SelectedEventCategories
 allSelected = SelectedEventCategories eventCategories
-    -- Debug.todo "Implement Model.Event.Category.allSelected"
+
 
 {-| Returns an instance of `SelectedEventCategories` with no categories selected
 
@@ -38,7 +38,7 @@ allSelected = SelectedEventCategories eventCategories
 -}
 noneSelected : SelectedEventCategories
 noneSelected = SelectedEventCategories []
-    -- Debug.todo "Implement Model.Event.Category.noneSelected"
+
 
 {-| Given a the current state and a `category` it returns whether the `category` is selected.
 
@@ -51,7 +51,6 @@ isEventCategorySelected category current =
         (SelectedEventCategories categories) = current
     in
         List.member category categories
-    -- Debug.todo "Implement Model.Event.Category.isEventCategorySelected"
 
 
 {-| Given an `category`, a boolean `value` and the current state, it sets the given `category` in `current` to `value`.

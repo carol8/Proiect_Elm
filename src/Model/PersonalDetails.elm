@@ -1,7 +1,7 @@
 module Model.PersonalDetails exposing (..)
 
 import Html exposing (..)
-import Html.Attributes exposing (class, classList, id, href)
+import Html.Attributes exposing (class, id, href)
 
 
 type alias DetailWithName =
@@ -27,4 +27,3 @@ view details =
     ++ (details.contacts |> List.map (\contact -> p [class "contact-detail"][text contact.detail]))
     ++ (details.socials |> List.map (\socials -> a [href socials.detail, class "social-link"][text socials.name]))
     )
-    -- Debug.todo "Implement the Model.PersonalDetails.view function"

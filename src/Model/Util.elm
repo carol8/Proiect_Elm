@@ -8,8 +8,6 @@ module Model.Util exposing (..)
 Meant to be used with the pipeline operator:
 
 -}
-
-
 chainCompare : Order -> Order -> Order
 chainCompare ord2 ord1 =
     case ord1 of

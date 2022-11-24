@@ -1,6 +1,6 @@
 module Model exposing (..)
 
-import Html exposing (b, div, p, text)
+import Html exposing (p, text)
 import Model.Date as Date
 import Model.Event as Event exposing (Event)
 import Model.Event.Category exposing (EventCategory(..), SelectedEventCategories, allSelected)
@@ -20,16 +20,16 @@ type alias Model =
 academicEvents : List Event
 academicEvents =
     [ { title = "High school"
-      , interval = Interval.withDurationYears (Date.onlyYear 2016) 4
-      , description = p [] [ text "I obtained ", b [] [ text "very" ], text " good grades." ]
+      , interval = Interval.withDurationMonths 2016 Date.Sep 45
+      , description = p [] [ text "I was a member of the RobotX Hunedoara, that participated in many competitions such as First Tech Challange or First Global Challenge"]
       , category = Academic
       , url = Nothing
       , tags = []
       , important = False
       }
     , { title = "University"
-      , interval = Interval.withDurationYears (Date.onlyYear 2020) 2
-      , description = p [] [text "Ongoing, trying to learn as much as I can"]
+      , interval = Interval.open (Date.full 2020 Date.Sep)
+      , description = p [] [text "Trying to learn as much as I can"]
       , category = Academic
       , url = Nothing
       , tags = []
@@ -59,8 +59,8 @@ workEvents =
     ]
 
 
-projectEvens : List Event
-projectEvens =
+projectEvents : List Event
+projectEvents =
     [ { title = "NX Ball"
       , interval = Interval.withDurationMonths 2021 Date.Mar 3
       , description = text "A copy of the famous Atari Breakout, made in x86 ASM"
@@ -68,14 +68,6 @@ projectEvens =
       , url = Just "https://github.com/carol8/NX_BALL"
       , tags = ["ASM", "Game", "Windows", "x86"]
       , important = False
-      }
-    , { title = "DATS Evenimente"
-      , interval = Interval.withDurationMonths 2022 Date.Feb 6
-      , description = text "DATS Evenimente is an event display app for the DATS events"
-      , category = Project
-      , url = Just "https://github.com/carol8/DATS_Evenimente"
-      , tags = ["Android", "App"]
-      , important = True
       }
     , { title = "Elm Personal Webpage"
       , interval = Interval.open (Date.full 2022 Date.Nov)
@@ -86,6 +78,19 @@ projectEvens =
       , important = False
       }
     ]
+
+
+awardEvents : List Event
+awardEvents = 
+  [ { title = "First Global Challange 2018 - international robotics olympiad"
+    , interval = Interval.withDurationMonths 2018 Date.Jun 3
+    , description = text "We won almost every category - first place in six categories"
+    , category = Award
+    , url = Just "https://first.global/archive/fgc-2018/"
+    , tags = ["International", "Robotics"]
+    , important = True
+    }
+  ]
 
 
 personalDetails : PersonalDetails
@@ -101,7 +106,7 @@ personalDetails =
 initModel : Model
 initModel =
     { personalDetails = personalDetails
-    , events = Event.sortByInterval <| academicEvents ++ workEvents ++ projectEvens
+    , events = Event.sortByInterval <| academicEvents ++ workEvents ++ projectEvents ++ awardEvents
     , selectedEventCategories = allSelected
     , repos = []
     }

@@ -22,13 +22,11 @@ view repo =
     , p [class "repo-url"] [a [href repo.url] [text repo.url]]
     , p [class "repo-stars"] [text <| String.fromInt repo.stars ++ " stars"]
     ]
-    -- Debug.todo "Implement Model.Repo.view"
 
 
 sortByStars : List Repo -> List Repo
 sortByStars repos =
     List.sortBy .stars repos
-    -- Debug.todo "Implement Model.Repo.sortByStars"
 
 
 {-| Deserializes a JSON object to a `Repo`.
@@ -43,7 +41,6 @@ Field mapping (JSON -> Elm):
 -}
 decodeRepo : De.Decoder Repo
 decodeRepo =
-    -- De.fail "not"
     De.map5 Repo
         (De.field "name" De.string)
         (De.field "description" (De.maybe De.string))

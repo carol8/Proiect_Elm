@@ -2,7 +2,6 @@ module Main exposing (..)
 
 import Browser
 import Html exposing (..)
-import Html.Attributes exposing (style)
 import Html.Events exposing (..)
 import Http
 import Json.Decode as De
@@ -12,6 +11,7 @@ import Model.Event.Category as EventCategory
 import Model.PersonalDetails as PersonalDetails
 import Model.Repo as Repo
 import Model.Repo exposing (decodeRepo)
+import Html.Attributes exposing (style)
 
 
 type Msg
@@ -42,11 +42,13 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
 
+
 getRepos : String -> Cmd Msg
 getRepos repo_api = Http.get
     { url = repo_api
     , expect = Http.expectJson GotRepos (De.list decodeRepo)
     }
+
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -102,7 +104,7 @@ view model =
                 |> List.map Repo.view
                 |> div []
     in
-    div []
+    div [style "padding-left" "10px"]
         [ PersonalDetails.view model.personalDetails
         , h2 [] [ text "Experience" ]
         , eventCategoriesView

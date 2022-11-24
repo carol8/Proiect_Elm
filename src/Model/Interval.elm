@@ -1,7 +1,7 @@
 module Model.Interval exposing (Interval, compare, full, length, oneYear, open, view, withDurationMonths, withDurationYears)
 
 import Html exposing (Html, div, p, text)
-import Html.Attributes exposing (class, style)
+import Html.Attributes exposing (class)
 import Model.Date as Date exposing (Date, Month)
 import Model.Util exposing (chainCompare)
 import Html.Attributes exposing (start)
@@ -109,16 +109,47 @@ compare (Interval intA) (Interval intB) =
         chainCompare (compareMaybeEnd (Interval intA) (Interval intB)) (Date.compare intA.start intB.start)
         
 
-
 view : Interval -> Html msg
 view interval =
     let
         (Interval intervalRecord) = interval
+
+        intervalStartContent : Html msg
+        intervalStartContent = 
+            div [] 
+            [ text "Starting in: "
+            , intervalRecord.start |> Date.view
+            ]
+
+        intervalEndContent : Html msg
+        intervalEndContent = 
+            div [] 
+            [ text "Ending in: "
+            , intervalRecord.end |> Maybe.map Date.view |> Maybe.withDefault (text "Ongoing")
+            ]
+
+        lengthYears : Int -> String
+        lengthYears years = 
+            if years /= 0 then (String.fromInt years) ++ " years"
+            else ""
+
+        lengthMonths : Int -> String
+        lengthMonths months = 
+            if months /= 0 then (String.fromInt months) ++ " months"
+            else ""
+
+        addComma : Int -> Int -> String
+        addComma years months = 
+            if years /= 0 && months /= 0 then ", "
+            else ""
+
+        intervalLengthContent : Int -> Int ->  Html msg
+        intervalLengthContent years months = 
+            p [class "interval-length"] [text <| "Duration: " ++ lengthYears years ++ addComma years months ++ lengthMonths months]
     in
         div [class "interval"]
-        ([ p [class "interval-start"] [intervalRecord.start |> Date.view]
-        , p [class "interval-end"] [intervalRecord.end |> Maybe.map Date.view |> Maybe.withDefault (text "Present")]
-        ]
-        ++ (length interval |> Maybe.map(\(int1, int2) -> [p [class "interval-length"] [text ((String.fromInt int1) ++ " years, " ++ (String.fromInt int2) ++ " months")]]) |> Maybe.withDefault [])
+        ([ p [class "interval-start"] [intervalStartContent]
+        ,  p [class "interval-end"] [intervalEndContent]]
+        ++ (length interval |> Maybe.map(\(years, months) -> [intervalLengthContent years months]) >> Maybe.withDefault [p [] [text "Present"]])
         )
     
