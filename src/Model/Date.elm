@@ -1,8 +1,7 @@
 module Model.Date exposing (Date, Month(..), compare, compareMonth, full, month, monthToString, monthsBetween, monthsBetweenMonths, offsetMonths, onlyYear, view, year)
 
-import Html exposing (Html, text, div)
+import Html exposing (Html, text)
 import Model.Util exposing (chainCompare)
-import Html exposing (p)
 
 
 type Date
@@ -89,7 +88,7 @@ compare (Date d1) (Date d2) =
         compareMaybeMonths : Maybe Month -> Maybe Month -> Order
         compareMaybeMonths mm1 mm2 = 
             case (mm1, mm2) of
-                (Just m1, Just m2) -> Basics.compare (monthToInt m1) (monthToInt m2)
+                (Just m1, Just m2) -> compareMonth m1 m2
                 (Nothing, Nothing) -> EQ
                 (Just _, Nothing) -> LT
                 (Nothing, Just _) -> GT
@@ -130,8 +129,8 @@ offsetMonths months (Date d) =
 
 
 view : Date -> Html msg
-view (Date d) =
-    div [] [ p [] [text <| (d.year |> String.fromInt) ++ " " ++ (d.month |> Maybe.map monthToString |> Maybe.withDefault "")]]
+view (Date d) = text <| (d.year |> String.fromInt) ++ " " ++ (d.month |> (Maybe.map monthToString >> Maybe.withDefault ""))
+
 
 
 
@@ -292,4 +291,3 @@ compareMonth m1 m2 =
 -}
 monthsBetweenMonths : Month -> Month -> Int
 monthsBetweenMonths m1 m2 = abs (monthToInt m1 - monthToInt m2)
-    -- Debug.todo "Implement Date.monthsBetweenMonths"
